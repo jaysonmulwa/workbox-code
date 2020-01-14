@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sw</title>
+
+	<link rel="stylesheet" type="text/css" href="./app.css">
+</head>
+<body>
+Hello Africa.
+
+<button class="fetch">Make fetch request</button><p>
+
+	<button class="notify">Notify</button><p>
+    
+
+    
+
+<script>
+
+ document.querySelector('.fetch').addEventListener('click', () => {
+       
+
+       fetch('./example.txt');
+    
+
+
+    });
+
+
+  document.querySelector('.notify').addEventListener('click', () => {
+       
+
+       displayNotification();
+    
+
+
+    });
+  
+// Check that service workers are supported
+if ('serviceWorker' in navigator) {
+  // Use the window load event to keep the page load performant
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js');
+  });
+}
+
+Notification.requestPermission(function(status) {
+    console.log('Notification permission status:', status);
+});
+
+
+function displayNotification() {
+  if (Notification.permission == 'granted') {
+    navigator.serviceWorker.getRegistration().then(function(reg) {
+      var options = {
+        body: 'Here is a notification body!',
+        icon: 'images/example.png',
+        vibrate: [100, 50, 100],
+        data: {
+          dateOfArrival: Date.now(),
+          primaryKey: 1
+        },
+        actions: [
+          {action: 'explore', title: 'Explore this new world',
+            icon: 'images/checkmark.png'},
+          {action: 'close', title: 'Close notification',
+            icon: 'images/xmark.png'},
+        ]
+      };
+      reg.showNotification('Hello world!', options);
+    });
+  }
+}
+
+</script>
+
+</body>
+</html>
