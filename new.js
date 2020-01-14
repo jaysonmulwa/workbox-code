@@ -1,1 +1,1 @@
-alert("who");
+alert("new");
